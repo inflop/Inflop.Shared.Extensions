@@ -34,7 +34,7 @@ namespace Inflop.Shared.Extensions
 		///		{ "F",          false }
 		/// </code>
 		/// </example>
-		public static readonly Dictionary<string, bool> BOOLEAN_MAPPING = new Dictionary<string, bool>()
+		public static readonly IReadOnlyDictionary<string, bool> BOOLEAN_MAPPING = new Dictionary<string, bool>()
 		{
 				{ "1",          true  },
 				{ "T",          true  },

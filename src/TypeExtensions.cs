@@ -46,14 +46,14 @@ namespace Inflop.Shared.Extensions
                 return type;
             }
         }
-        public static string GetSHA256HashFromByteArray(byte[] obj)
+        public static string ToSha256Hash(this byte[] array)
         {
-            if (obj.Length == 0)
-                throw new Exception("Array cannot be empty!");
+            if (array is null || array.Length == 0)
+                throw new ArgumentException("Input array cannot be empty!");
             
             byte[] hashValue = null;
             HashAlgorithm hash = SHA256.Create();
-            hashValue = hash.ComputeHash(obj);
+            hashValue = hash.ComputeHash(array);
 
             return Convert.ToBase64String(hashValue);            
         }

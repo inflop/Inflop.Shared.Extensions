@@ -85,5 +85,11 @@ namespace Inflop.Shared.Extensions.Tests
             result.Parsed.Should().Be(true);
             result.Value.Should().NotBe(DateTimeExtensions.DefaultDateTime);
         }
+        
+        [Fact]
+        public void ToBoolean_Should_Return_Expected_Value()
+        {
+            BooleanExtensions.BOOLEAN_MAPPING.ForEach(kv => kv.Key.ToBoolean().Should().Be(kv.Value));
+        }
     }
 }

@@ -16,18 +16,11 @@ namespace Inflop.Shared.Extensions
                 using (MemoryStream ms = new MemoryStream())
                 {
                     fileStream.CopyTo(ms);
-                    result = TypeExtensions.GetSHA256HashFromByteArray(ms.ToArray());
+                    result = ms.ToArray().ToSha256Hash();
                 }
                 fileStream.Close();
             }
 
-            return result;
-        }
-        public static string GetSHA256HashFromBytesArray(this byte[] array)
-        {
-            string result = string.Empty;
-            result = TypeExtensions.GetSHA256HashFromByteArray(array);
-            
             return result;
         }
     }
