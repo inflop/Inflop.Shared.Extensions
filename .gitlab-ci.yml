@@ -21,4 +21,4 @@ build:
 test:
     stage: test
     script: 
-        - dotnet test src/Inflop.Shared.Extensions.Tests/Inflop.Shared.Extensions.Tests.csproj
+        - dotnet test tests/Inflop.Shared.Extensions.Tests/Inflop.Shared.Extensions.Tests.csproj
