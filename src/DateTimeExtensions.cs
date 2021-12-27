@@ -12,7 +12,7 @@ namespace Inflop.Shared.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
-        private static readonly DateTime _DefaultDateTime = new DateTime(1900, 1, 1);
+        private static readonly DateTime _DefaultDateTime = default(DateTime);
 
         /// <summary>
         /// String array contains avaliable DateTime formats used to coverts string to DateTime.

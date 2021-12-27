@@ -81,9 +81,9 @@ namespace Inflop.Shared.Extensions
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public static Tuple<bool, DateTime> TryParseToDateTime(this object date)
+        public static (bool Parsed, DateTime Value) TryParseToDateTime(this object date)
             => date.IsNull()
-                ? new Tuple<bool, DateTime>(false, DateTimeExtensions.DefaultDateTime)
+                ? (false, DateTimeExtensions.DefaultDateTime)
                 : date.ToString().TryParseToDateTime();
 
         /// <summary>

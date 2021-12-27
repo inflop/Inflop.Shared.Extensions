@@ -34,7 +34,7 @@ namespace Inflop.Shared.Extensions
         /// If the parameter <paramref name="format"/> has default empty value, conversion is based on <see cref="Inflop.Shared.Extensions.DateTimeExtensions.DATE_FORMATS"/>.
         /// Otherwise parsing is based on <paramref name="format"/> value.
         /// </remarks>
-        public static Tuple<bool, DateTime> TryParseToDateTime(this string dateString, string format = "")
+        public static (bool Parsed , DateTime Value) TryParseToDateTime(this string dateString, string format = "")
         {
             dateString = dateString ?? DateTimeExtensions.DefaultDateTime.Date.ToString();
             DateTime dateTime = DateTimeExtensions.DefaultDateTime;
@@ -56,7 +56,7 @@ namespace Inflop.Shared.Extensions
             if (dateTime == DateTime.MinValue)
                 dateTime = DateTimeExtensions.DefaultDateTime;
 
-            return new Tuple<bool, DateTime>(parseResult, dateTime);
+            return (parseResult, dateTime);
         }
 
         /// <summary>
@@ -66,9 +66,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="format">The date format for input string to parse.</param>
         /// <returns>Returns <see langword="true"/> if input string is <see cref="System.DateTime"/> equivalent, otherwise returns <see langword="false"/>.</returns>
         public static bool IsDateTime(this string value, string format = "")
-        {
-            return value.TryParseToDateTime(format).Item1;
-        }
+            => value.TryParseToDateTime(format).Parsed;
 
         /// <summary>
         /// Converts input string to <see cref="System.DateTime"/>.
@@ -80,9 +78,7 @@ namespace Inflop.Shared.Extensions
         /// Conversion is based on method <see cref="Inflop.Shared.Extensions.StringExtensions.TryParseToDateTime(string, string)"/>.
         /// </remarks>
         public static DateTime ToDateTime(this string value, string format = "")
-        {
-            return value.TryParseToDateTime(format).Item2;
-        }
+            => value.TryParseToDateTime(format).Value;
 
         /// <summary>
         /// Determines whether the specified string can convert to <see cref="System.Boolean"/>.
@@ -122,10 +118,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value">The string value to check.</param>
         /// <returns>Returns <c>true</c> if the conversion of input string was successfull. Otherwise, it returns <c>false</c>.</returns>
         public static bool IsDecimal(this string value)
-        {
-            decimal result = 0;
-            return decimal.TryParse(value.Replace(".", ","), NumberStyles.Currency, CultureInfo.CurrentCulture, out result);
-        }
+            => decimal.TryParse(value.Replace(".", ","), NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal result);
 
         /// <summary>
         /// Converts input string to <see cref="System.Decimal"/>.
@@ -134,10 +127,7 @@ namespace Inflop.Shared.Extensions
         /// <returns>If convertion succeed , returns parsed value. If failed, returns 0.</returns>
         public static decimal ToDecimal(this string value)
         {
-            decimal result = 0;
-            if (decimal.TryParse(value.Replace(".", ","), NumberStyles.Currency, CultureInfo.CurrentCulture, out result))
-                return result;
-
+            decimal.TryParse(value.Replace(".", ","), NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal result);
             return result;
         }
 
@@ -147,10 +137,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value">The string value to check.</param>
         /// <returns>Returns <c>true</c> if the conversion of input string was successfull. Otherwise, it returns <c>false</c>.</returns>
         public static bool IsInteger(this string value)
-        {
-            int result = 0;
-            return int.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out result);
-        }
+            => int.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out int result);
 
         /// <summary>
         /// Converts input string to <see cref="System.Int32"/>.
@@ -159,10 +146,7 @@ namespace Inflop.Shared.Extensions
         /// <returns>If convertion succeed , returns parsed value. If failed, returns 0.</returns>
         public static int ToInteger(this string value)
         {
-            int result = 0;
-            if (int.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out result))
-                return result;
-
+            int.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out int result);
             return result;
         }
 
