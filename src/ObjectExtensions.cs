@@ -66,7 +66,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value"></param>
         /// <returns></returns>
         public static bool IsNull(this object value)
-            => value == null;
+            => value is null;
 
         /// <summary>
         /// 
@@ -102,9 +102,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value"></param>
         /// <returns></returns>
         public static bool IsBoolean(this object value)
-            => value.IsNull()
-                ? false
-                : value.ToString().IsBoolean();
+            => !value.IsNull() && value.ToString().IsBoolean();
 
         /// <summary>
         /// 
@@ -112,9 +110,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value"></param>
         /// <returns></returns>
         public static bool ToBoolean(this object value)
-            => value.IsNull()
-                ? false
-                : value.ToString().ToBoolean();
+            => !value.IsNull() && value.ToString().ToBoolean();
 
         public static bool IsNumeric(this object value)
         {
