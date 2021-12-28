@@ -8,11 +8,11 @@ stages:
 build:
     stage: build
     script:
-        - dotnet build src/Inflop.Shared.Extensions/Inflop.Shared.Extensions.csproj /p:Version=1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA
+        - dotnet build src/Inflop.Shared.Extensions.csproj /p:Version=1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA
     artifacts:
         name: "inflop-shared-extensions-1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA"
         paths:
-            - src/Inflop.Shared.Extensions/bin/Release/net6.0/            
+            - src/bin/Release/net6.0/            
     only:
         refs:
             - master
