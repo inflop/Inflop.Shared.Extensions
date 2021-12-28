@@ -22,9 +22,7 @@ namespace Inflop.Shared.Extensions
 		/// <c>true</c> if the <paramref name="source"/> sequence is null or empty; otherwise, <c>false</c>.
 		/// </returns>
 		public static bool IsEmpty<T>(this IEnumerable<T> source)
-		{
-			return source.IsNull() || !source.Any();
-		}
+			=> source.IsNull() || !source.Any();
 
 		/// <summary>
 		/// Checks if the collection is not null or not empty.
@@ -35,9 +33,7 @@ namespace Inflop.Shared.Extensions
 		/// <c>true</c> if the <paramref name="source"/> sequence is not null or not empty; otherwise, <c>false</c>.
 		/// </returns>
 		public static bool IsNotEmpty<T>(this IEnumerable<T> source)
-		{
-			return !source.IsEmpty();
-		}
+			=> !source.IsEmpty();
 
 
 		/// <summary>
@@ -51,10 +47,10 @@ namespace Inflop.Shared.Extensions
 		public static bool IsSingle<T>(this IEnumerable<T> source)
 		{
 			if (source.IsNull())
-				throw new ArgumentNullException("source");
+				throw new ArgumentNullException(nameof(source));
 
-			using (var enumerator = source.GetEnumerator())
-				return enumerator.MoveNext() && !enumerator.MoveNext();
+			using var enumerator = source.GetEnumerator();
+			return enumerator.MoveNext() && !enumerator.MoveNext();
 		}
 
 		/// <summary>
