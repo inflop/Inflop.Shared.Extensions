@@ -1,37 +1,37 @@
 image: mcr.microsoft.com/dotnet/sdk:6.0
 
 stages:
-    - build
-    - test
-    - deploy
+  - build
+  - test
+  - deploy
 
 build:
-    stage: build
-    script:
-        - dotnet build src/Inflop.Shared.Extensions.csproj /p:Version=1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA
-    artifacts:
-        name: "inflop-shared-extensions-1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA"
-        paths:
-            - src/bin/Release/net6.0/            
-    only:
-        refs:
-            - master
-        variables:
-            - $CI_COMMIT_MESSAGE =~ /(^|)(#build|#deploy)(|$)/
+  stage: build
+  script:
+    - dotnet build src/Inflop.Shared.Extensions.csproj /p:Version=1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA
+  artifacts:
+    name: "inflop-shared-extensions-1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - src/bin/Release/net6.0/
+  only:
+    refs:
+      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /(^|)(#build|#deploy)(|$)/
 
 test:
-    stage: test
-    script: 
-        - dotnet test tests/Inflop.Shared.Extensions.Tests/Inflop.Shared.Extensions.Tests.csproj
+  stage: test
+  script:
+    - dotnet test tests/Inflop.Shared.Extensions.Tests/Inflop.Shared.Extensions.Tests.csproj
 
 deploy:
-    stage: deploy
-    script:
-        - dotnet pack -c Release
-        - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $ACCESS_TOKEN --store-password-in-clear-text
-        - dotnet nuget push "bin/Release/*.nupkg" --source gitlab
-    only:
-        refs:
-            - master
-        variables:
-            - $CI_COMMIT_MESSAGE =~ /(^|)(#deploy)(|$)/
+  stage: deploy
+  script:
+    - dotnet pack -c Release
+    - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $ACCESS_TOKEN --store-password-in-clear-text
+    - dotnet nuget push "bin/Release/*.nupkg" --source gitlab
+  only:
+    refs:
+      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /(^|)(#deploy)(|$)/
