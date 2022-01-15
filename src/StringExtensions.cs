@@ -156,10 +156,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value">The string value to check.</param>
         /// <returns>Returns <c>true</c> if the conversion of input string was successfull. Otherwise, it returns <c>false</c>.</returns>
         public static bool IsLong(this string value)
-        {
-            long result = 0;
-            return long.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out result);
-        }
+            => long.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out long result);
 
         /// <summary>
         /// Converts input string to <see cref="System.Int64"/>.
@@ -168,10 +165,7 @@ namespace Inflop.Shared.Extensions
         /// <returns>If convertion succeed , returns parsed value. If failed, returns 0.</returns>
         public static long ToLong(this string value)
         {
-            long result = 0;
-            if (long.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out result))
-                return result;
-
+            long.TryParse(value, NumberStyles.Any, CultureInfo.CurrentCulture, out var result);
             return result;
         }
 
@@ -181,9 +175,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value">The string value to check.</param>
         /// <returns></returns>
         public static bool IsEmpty(this string value)
-        {
-            return string.IsNullOrWhiteSpace(value);
-        }
+            => string.IsNullOrWhiteSpace(value);
 
         /// <summary>
         /// Determines whether the specified string is not null, empty or whitespace.
@@ -191,9 +183,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value">The string value to check.</param>
         /// <returns></returns>
         public static bool IsNotEmpty(this string value)
-        {
-            return !value.IsEmpty();
-        }
+            => !value.IsEmpty();
 
         /// <summary>
         /// Returns a copy of this string converted to uppercase in which all leading and trailing occurrences
@@ -202,9 +192,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value"></param>
         /// <returns></returns>
         public static string ToUpperTrim(this string value)
-        {
-            return value.Trim().ToUpper();
-        }
+            => value.Trim().ToUpper();
 
         /// <summary>
         /// Returns a copy of this string converted to lowercase in which all leading and trailing occurrences
@@ -213,9 +201,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value"></param>
         /// <returns></returns>
         public static string ToLowerTrim(this string value)
-        {
-            return value.Trim().ToLower();
-        }
+            => value.Trim().ToLower();
 
         /// <summary>
         /// 
@@ -223,9 +209,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value"></param>
         /// <returns></returns>
         public static string RemoveWhiteSpaces(this string value)
-        {
-            return Regex.Replace(value, @"\s|\t|\n|\r", string.Empty);
-        }
+            => Regex.Replace(value, @"\s|\t|\n|\r", string.Empty);
 
         /// <summary>
         /// 
@@ -244,13 +228,9 @@ namespace Inflop.Shared.Extensions
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string ToSHA256Hash(this string value)
+        public static string ToSha256Hash(this string value)
         {
-            byte[] hashValue = null;
-            HashAlgorithm hash = SHA256.Create();
-            byte[] bytes = Encoding.Default.GetBytes(value);
-            hashValue = hash.ComputeHash(bytes);
-
+            var hashValue = SHA256.Create().ComputeHash(Encoding.Default.GetBytes(value));
             return Convert.ToBase64String(hashValue);
         }
 
@@ -263,27 +243,20 @@ namespace Inflop.Shared.Extensions
         /// If <c>null</c> then use <see cref="Encoding.Default">Encoding.Default</see>.
         /// </param>
         /// <returns></returns>
-        public static string ToSHA256Hash(this string value, Encoding encoding)
+        public static string ToSha256Hash(this string value, Encoding encoding)
         {
-            Encoding e = encoding ?? Encoding.Default;
-            byte[] hashValue = null;
-            HashAlgorithm hash = SHA256.Create();
-            byte[] bytes = e.GetBytes(value);
-            hashValue = hash.ComputeHash(bytes);
-
+            var hashValue = SHA256.Create().ComputeHash((encoding ?? Encoding.Default).GetBytes(value));
             return Convert.ToBase64String(hashValue);
         }
 
-        public static string ToMD5Hash(this string value)
+        public static string ToMd5Hash(this string value)
         {
-            MD5 md5 = System.Security.Cryptography.MD5.Create();
-            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(value);
-            byte[] hash = md5.ComputeHash(inputBytes);
+            var hash = MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(value));
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
+            var sb = new StringBuilder();
+            foreach (var t in hash)
             {
-                sb.Append(hash[i].ToString("x2"));
+                sb.Append(t.ToString("x2"));
             }
 
             return sb.ToString();
@@ -301,10 +274,7 @@ namespace Inflop.Shared.Extensions
         /// </param>
         /// <returns>The created byte array</returns>
         public static byte[] ToBytes(this string value, Encoding encoding)
-        {
-            Encoding e = encoding ?? Encoding.Default;
-            return e.GetBytes(value);
-        }
+            => (encoding ?? Encoding.Default).GetBytes(value);
 
         /// <summary>
         /// Converts the string to a byte-array using the <see cref="Encoding.Default">Encoding.Default</see>
@@ -312,9 +282,7 @@ namespace Inflop.Shared.Extensions
         /// <param name="value">The input string.</param>
         /// <returns>The created byte array</returns>
         public static byte[] ToBytes(this string value)
-        {
-            return Encoding.Default.GetBytes(value);
-        }
+            => Encoding.Default.GetBytes(value);
 
         /// <summary>
         /// Converts the string to MemoryStream using the <see cref="Encoding.Default">Encoding.Default</see>
@@ -324,7 +292,7 @@ namespace Inflop.Shared.Extensions
         /// <returns></returns>
         public static MemoryStream ToMemoryStream(this string value, Encoding encoding)
         {
-            byte[] bytes = value.ToBytes(encoding);
+            var bytes = value.ToBytes(encoding);
             return new MemoryStream(bytes, 0, bytes.Length);
         }
 
@@ -354,7 +322,7 @@ namespace Inflop.Shared.Extensions
         /// </summary>
         /// <param name="value">The input string to check.</param>
         /// <returns>Returns <see langword="true"/> if valid, otherwise returns <see langword="false"/>.</returns>
-        public static bool IsValidNIP(this string value)
+        public static bool IsValidNip(this string value)
         {
             if (value.IsEmpty() || (value.ToLower().StartsWith("pl") == false && new Regex(@"^\d+$").IsMatch(value)))
                 return true;
@@ -382,7 +350,7 @@ namespace Inflop.Shared.Extensions
         /// </summary>
         /// <param name="value">The input string to check.</param>
         /// <returns>Returns <see langword="true"/> if valid, otherwise returns <see langword="false"/>.</returns>
-        public static bool IsValidREGON(this string value)
+        public static bool IsValidRegon(this string value)
         {
             if (value.IsEmpty())
                 return true;
@@ -418,7 +386,7 @@ namespace Inflop.Shared.Extensions
         /// </summary>
         /// <param name="value">The input string to check.</param>
         /// <returns>Returns <see langword="true"/> if valid, otherwise returns <see langword="false"/>.</returns>
-        public static bool IsValidPESEL(this string value)
+        public static bool IsValidPesel(this string value)
         {
             int[] weights = { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
             bool result = false;
