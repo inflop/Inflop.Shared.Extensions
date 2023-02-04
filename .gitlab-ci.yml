@@ -29,7 +29,7 @@ deploy:
   script:
     - dotnet pack -c Release
     - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name Inflop.Shared.Extensions --store-password-in-clear-text --username inflop.shared.extensions --password $DEPLOY_TOKEN
-    - dotnet nuget push "bin/Release/*.nupkg" --source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
+    - dotnet nuget push "src/bin/Release/*.nupkg" --source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
   only:
     refs:
       - master
