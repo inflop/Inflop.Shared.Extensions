@@ -29,7 +29,7 @@ deploy:
   script:
     - dotnet pack -c Release
     - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name Inflop.Shared.Extensions --store-password-in-clear-text --username gitlab-ci-token --password $ACCESS_TOKEN
-    - dotnet nuget push "bin/Release/*.nupkg" --source Inflop.Shared.Extensions
+    - dotnet nuget push "bin/Release/*.nupkg" --source Inflop.Shared.Extensions --store-password-in-clear-text --username gitlab-ci-token --password $ACCESS_TOKEN
   only:
     refs:
       - master
