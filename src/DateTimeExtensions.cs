@@ -253,6 +253,14 @@ namespace Inflop.Shared.Extensions
         /// <returns></returns>
         public static DateTime Tomorrow(this DateTime date)
             => date.AddDays(1);
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static DateTime BeginOfDay(this DateTime date)
+	        => date.SetTime(0, 0, 0);
 
         /// <summary>
         /// 
