@@ -8,6 +8,7 @@ namespace Inflop.Shared.Extensions.Tests;
 public class TypeExtensionsTest
 {
     [Theory]
+    [InlineData(typeof(TypeExtensionsTest))]
     [InlineData(typeof(DateTime?))]
     [InlineData(typeof(int?))]
     [InlineData(typeof(string))]

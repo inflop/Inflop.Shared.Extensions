@@ -1,5 +1,3 @@
-using System;
-
 namespace Inflop.Shared.Extensions
 {
     public static class GuidExtensions
@@ -8,7 +6,7 @@ namespace Inflop.Shared.Extensions
         {
             string base64Guid = Convert.ToBase64String(guid.ToByteArray());
             base64Guid = base64Guid.Replace("+", "").Replace("/", "");
-            return base64Guid.Substring(0, base64Guid.Length-2);
+            return base64Guid.Substring(0, base64Guid.Length - 2);
         }
     }
 }
