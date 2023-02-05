@@ -1,10 +1,5 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
+﻿namespace Inflop.Shared.Extensions.Tests;
 
-namespace Inflop.Shared.Extensions.Tests
+public static class HttpRequestExtensionsTest
 {
-    public static class HttpRequestExtensionsTest
-    {
-    }
 }

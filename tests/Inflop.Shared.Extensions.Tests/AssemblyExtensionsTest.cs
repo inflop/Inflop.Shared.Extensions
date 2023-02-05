@@ -1,53 +1,52 @@
 using System;
 using System.Reflection;
-using Xunit;
 using FluentAssertions;
 using NSubstitute;
+using Xunit;
 
-namespace Inflop.Shared.Extensions.Tests
+namespace Inflop.Shared.Extensions.Tests;
+
+public class AssemblyExtensionsTest
 {
-    public class AssemblyExtensionsTest
+    [Fact]
+    public void TryGetAssemblyVersion_Should_Return_Version_From_GetName_Method()
     {
-        [Fact]
-        public void TryGetAssemblyVersion_Should_Return_Version_From_GetName_Method()
-        {
-            // Arrange
-            var expected = "1.1.1";
-            var assemblyName = new AssemblyName() { Name = "Test", Version = new Version(expected) }; 
-            var assembly = Substitute.For<Assembly>();
+        // Arrange
+        var expected = "1.1.1";
+        var assemblyName = new AssemblyName() { Name = "Test", Version = new Version(expected) };
+        var assembly = Substitute.For<Assembly>();
 
-            // Actual
-            assembly.GetName().Returns(assemblyName);
+        // Actual
+        assembly.GetName().Returns(assemblyName);
 
-            // Assert
-            assembly.TryGetAssemblyVersion().Should().Be(expected);
-        }
-        
-        [Fact]
-        public void TryGetAssemblyVersion_Should_Return_Default_Version()
-        {
-            Substitute.For<Assembly>().TryGetAssemblyVersion().Should().Be(AssemblyExtensions.DefaultVersion.ToString());
-        }
+        // Assert
+        assembly.TryGetAssemblyVersion().Should().Be(expected);
+    }
 
-        [Fact]
-        public void TryGetAssemblyName_Should_Return_Valid_Name()
-        {
-            // Arrange
-            var expected = "Test";
-            var assemblyName = new AssemblyName() { Name = expected }; 
-            var assembly = Substitute.For<Assembly>();
+    [Fact]
+    public void TryGetAssemblyVersion_Should_Return_Default_Version()
+    {
+        Substitute.For<Assembly>().TryGetAssemblyVersion().Should().Be(AssemblyExtensions.DefaultVersion.ToString());
+    }
 
-            // Actual
-            assembly.GetName().Returns(assemblyName);
+    [Fact]
+    public void TryGetAssemblyName_Should_Return_Valid_Name()
+    {
+        // Arrange
+        var expected = "Test";
+        var assemblyName = new AssemblyName() { Name = expected };
+        var assembly = Substitute.For<Assembly>();
 
-            // Assert
-            assembly.TryGetAssemblyName().Should().Be(expected);
-        }
+        // Actual
+        assembly.GetName().Returns(assemblyName);
 
-        [Fact]
-        public void TryGetAssemblyName_Should_Return_Empty_Name()
-        {
-            Substitute.For<Assembly>().TryGetAssemblyName().Should().BeEmpty();
-        }
+        // Assert
+        assembly.TryGetAssemblyName().Should().Be(expected);
+    }
+
+    [Fact]
+    public void TryGetAssemblyName_Should_Return_Empty_Name()
+    {
+        Substitute.For<Assembly>().TryGetAssemblyName().Should().BeEmpty();
     }
 }

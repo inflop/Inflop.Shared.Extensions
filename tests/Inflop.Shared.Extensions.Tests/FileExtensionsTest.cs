@@ -1,8 +1,5 @@
-using System.IO;
+namespace Inflop.Shared.Extensions.Tests;
 
-namespace Inflop.Shared.Extensions.Tests
+public static class FileExtensionsTest
 {
-    public static class FileExtensionsTest
-    {
-    }
 }

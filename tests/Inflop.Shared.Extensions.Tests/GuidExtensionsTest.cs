@@ -1,8 +1,5 @@
-using System;
+namespace Inflop.Shared.Extensions.Tests;
 
-namespace Inflop.Shared.Extensions.Tests
+public static class GuidExtensionsTest
 {
-    public static class GuidExtensionsTest
-    {
-    }
 }

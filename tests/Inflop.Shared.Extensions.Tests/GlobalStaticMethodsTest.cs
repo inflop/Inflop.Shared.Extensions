@@ -1,10 +1,5 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿namespace Inflop.Shared.Extensions.Tests;
 
-namespace Inflop.Shared.Extensions.Tests
+public static class GlobalStaticMethodsTest
 {
-    public static class GlobalStaticMethodsTest
-    {
-
-    }
 }
