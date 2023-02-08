@@ -27,9 +27,10 @@ test:
 deploy:
   stage: deploy
   script:
+    - export VERSION=$(echo $(date +"%Y.%m.%d").$CI_PIPELINE_ID)
     - dotnet pack -c Release /p:Version=$CI_COMMIT_SHORT_SHA
     - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name Inflop.Shared.Extensions --store-password-in-clear-text --username inflop.shared.extensions --password $DEPLOY_TOKEN
-    - dotnet nuget push "src/bin/Release/*.nupkg" --source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
+    - dotnet nuget push "src/bin/Release/*.$VERSION.nupkg" --source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
   only:
     refs:
       - master
