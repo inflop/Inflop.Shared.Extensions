@@ -26,12 +26,5 @@ public static class DictionaryExtensions
     }
 
     public static string ToHttpQueryStringParams(this IDictionary<string, string> @params)
-    {
-        string result = string.Format("{0}",
-                string.Join("&",
-                    @params.Select(kvp =>
-                        string.Format("{0}={1}", kvp.Key, kvp.Value))));
-
-        return result;
-    }
+        => string.Join("&", @params.Select(kv => $"{kv.Key}={kv.Value}"));
 }

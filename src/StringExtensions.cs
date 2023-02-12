@@ -59,7 +59,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="value">The string value to check.</param>
     /// <param name="format">The date format for input string to parse.</param>
-    /// <returns>Returns <see langword="true"/> if input string is <see cref="System.DateTime"/> equivalent, otherwise returns <see langword="false"/>.</returns>
+    /// <returns>Returns <see langword="true"/> if input string is <see cref="DateTime"/> equivalent, otherwise returns <see langword="false"/>.</returns>
     public static bool IsDateTime(this string value, string format = "")
         => value.TryParseToDateTime(format).Parsed;
 
@@ -70,7 +70,7 @@ public static class StringExtensions
     /// <param name="format">The date format for input string to parse.</param>
     /// <returns>If convertion succeed, returns parsed value. If failed, returns <see cref="DateTimeExtensions.DefaultDateTime">DateTimeExtensions.DefaultDateTime</see>.</returns>
     /// <remarks>
-    /// Conversion is based on method <see cref="Inflop.Shared.Extensions.StringExtensions.TryParseToDateTime(string, string)"/>.
+    /// Conversion is based on method <see cref="TryParseToDateTime(string, string)"/>.
     /// </remarks>
     public static DateTime ToDateTime(this string value, string format = "")
         => value.TryParseToDateTime(format).Value;
@@ -81,11 +81,11 @@ public static class StringExtensions
     /// <param name="value">The string value to check.</param>
     /// <returns>Returns <c>true</c> if the conversion of input string was successfull. Otherwise, it returns <c>false</c>.</returns>
     /// <remarks>
-    /// Based on <see cref="Inflop.Shared.Extensions.BooleanExtensions.BOOLEAN_MAPPING"/>
+    /// Based on <see cref="BooleanStrings"/>
     /// </remarks>
     public static bool IsBoolean(this string value)
     {
-        var itemValue = BooleanExtensions.BOOLEAN_MAPPING.Where(v => v.Key == value.RemoveWhiteSpaces().ToUpperTrim()).FirstOrDefault();
+        var itemValue = BooleanStrings.Where(v => v.Key == value.RemoveWhiteSpaces().ToUpperTrim()).FirstOrDefault();
         return !itemValue.IsDefault();
     }
 
@@ -95,12 +95,12 @@ public static class StringExtensions
     /// <param name="value">The string value to convert.</param>
     /// <returns>Returns <c>true</c> if the conversion of input string was successfull. Otherwise, it returns <c>false</c>.</returns>
     /// <remarks>
-    /// Convertion is based on <see cref="Inflop.Shared.Extensions.BooleanExtensions.BOOLEAN_MAPPING"/>.
+    /// Convertion is based on <see cref="BooleanStrings"/>.
     /// </remarks>
     public static bool ToBoolean(this string value)
     {
         bool result = false;
-        var itemValue = BooleanExtensions.BOOLEAN_MAPPING.Where(v => v.Key == value.RemoveWhiteSpaces().ToUpperTrim()).FirstOrDefault();
+        var itemValue = BooleanStrings.Where(v => v.Key == value.RemoveWhiteSpaces().ToUpperTrim()).FirstOrDefault();
         if (!itemValue.IsDefault())
             result = itemValue.Value;
 
@@ -623,4 +623,24 @@ public static class StringExtensions
 
         return result;
     }
+
+    public static IReadOnlyDictionary<string, bool> BooleanStrings = new Dictionary<string, bool>()
+    {
+        { "1",          true  },
+        { "T",          true  },
+        { "TAK",        true  },
+        { "TRUE",       true  },
+        { "Y",          true  },
+        { "YES",        true  },
+        { "PRAWDA",     true  },
+        { "P",          true  },
+        { "0",          false },
+        { "N",          false },
+        { "NIE",        false },
+        { "FALSE",      false },
+        { "NO",         false },
+        { "FAŁSZ",      false },
+        { "FALSZ",      false },
+        { "F",          false }
+    };
 }
