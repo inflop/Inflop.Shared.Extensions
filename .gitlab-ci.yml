@@ -8,11 +8,11 @@ stages:
 build:
   stage: build
   script:
-    - dotnet build src/Inflop.Shared.Extensions.csproj /p:Version=1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA
+    - dotnet build src/Inflop.Shared.Extensions/Inflop.Shared.Extensions.csproj /p:Version=1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA
   artifacts:
     name: "inflop-shared-extensions-1.0.$CI_PIPELINE_IID-$CI_COMMIT_SHORT_SHA"
     paths:
-      - src/bin/Release/net6.0/
+      - src/Inflop.Shared.Extensions/bin/Release/net6.0/
   only:
     refs:
       - master
@@ -31,7 +31,7 @@ deploy:
     - echo $VERSION
     - dotnet pack -c Release /p:Version=$VERSION
     - dotnet nuget add source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json" --name Inflop.Shared.Extensions --store-password-in-clear-text --username inflop.shared.extensions --password $DEPLOY_TOKEN
-    - dotnet nuget push "src/bin/Release/*.$VERSION.nupkg" --source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
+    - dotnet nuget push "src/Inflop.Shared.Extensions/bin/Release/*.$VERSION.nupkg" --source "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/nuget/index.json"
   only:
     refs:
       - master

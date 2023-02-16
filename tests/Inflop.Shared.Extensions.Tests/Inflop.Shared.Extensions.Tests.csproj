@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Inflop.Shared.Extensions.csproj" />
+    <ProjectReference Include="..\..\src\Inflop.Shared.Extensions\Inflop.Shared.Extensions.csproj" />
   </ItemGroup>
 
 </Project>
