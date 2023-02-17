@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Text;
 
 namespace Inflop.Shared.Extensions;
@@ -8,27 +8,7 @@ namespace Inflop.Shared.Extensions;
 /// </summary>
 public static class ExceptionExtensions
 {
-    /// <summary>
-    ///
-    /// </summary>
     private static int exceptionLevel = 0;
-
-    /// <summary>
-    /// Logs full information about the exception.
-    /// </summary>
-    /// <param name="ex">Thrown an exception to be logged.</param>
-    // public static void Log(this Exception ex, string additionalMessage = "")
-    // {
-    //     string message = ex.FullInfo();
-
-    //     if (additionalMessage.IsNotEmpty())
-    //     {
-    //         additionalMessage = $"AdditionalMessage: {additionalMessage}";
-    // 		message = $"{additionalMessage}{Environment.NewLine}{message}";
-    //     }
-
-    //     NLogger.ErrorException(message, ex);
-    // }
 
     /// <summary>
     /// Returns full information about the exception
@@ -44,21 +24,21 @@ public static class ExceptionExtensions
         string redFontTagOpen = htmlFormatted ? "<font color='red'>" : "";
         string redFontTagClose = htmlFormatted ? "</font>" : "";
 
-        ExceptionExtensions.exceptionLevel++;
-        string indent = new string('\t', ExceptionExtensions.exceptionLevel - 1);
-        sb.AppendFormat("{3}{0}*** Exception level {1} *************************************************{4}{2}", indent, ExceptionExtensions.exceptionLevel, Environment.NewLine, boldFontTagOpen, boldFontTagClose);
-        sb.AppendFormat("{3}{0}ExceptionType:{4} {1}{2}", indent, ex.GetType().Name, Environment.NewLine, boldFontTagOpen, boldFontTagClose);
-        sb.AppendFormat("{3}{0}HelpLink:{4} {1}{2}", indent, ex.HelpLink, Environment.NewLine, boldFontTagOpen, boldFontTagClose);
-        sb.AppendFormat("{3}{0}Message: {5}{1}{6}{4}{2}", indent, ex.Message, Environment.NewLine, boldFontTagOpen, boldFontTagClose, redFontTagOpen, redFontTagClose);
-        sb.AppendFormat("{3}{0}Source:{4} {1}{2}", indent, ex.Source, Environment.NewLine, boldFontTagOpen, boldFontTagClose);
-        sb.AppendFormat("{3}{0}StackTrace:{4} {1}{2}", indent, ex.StackTrace, Environment.NewLine, boldFontTagOpen, boldFontTagClose);
-        sb.AppendFormat("{3}{0}TargetSite:{4} {1}{2}", indent, ex.TargetSite, Environment.NewLine, boldFontTagOpen, boldFontTagClose);
+        exceptionLevel++;
+        string indent = new string('\t', exceptionLevel - 1);
+        sb.Append($"{boldFontTagOpen}{indent}*** Exception level {exceptionLevel} *************************************************{boldFontTagClose}{Environment.NewLine}");
+        sb.Append($"{boldFontTagOpen}{indent}ExceptionType:{boldFontTagClose} {ex.GetType().Name}{Environment.NewLine}");
+        sb.Append($"{boldFontTagOpen}{indent}HelpLink:{boldFontTagClose} {ex.HelpLink}{Environment.NewLine}");
+        sb.Append($"{boldFontTagOpen}{indent}Message: {redFontTagOpen}{ex.Message}{redFontTagClose}{boldFontTagClose}{Environment.NewLine}");
+        sb.Append($"{boldFontTagOpen}{indent}Source:{boldFontTagClose} {ex.Source}{Environment.NewLine}");
+        sb.Append($"{boldFontTagOpen}{indent}StackTrace:{boldFontTagClose} {ex.StackTrace}{Environment.NewLine}");
+        sb.Append($"{boldFontTagOpen}{indent}TargetSite:{boldFontTagClose} {ex.TargetSite}{Environment.NewLine}");
 
         if (ex.Data.Count > 0)
         {
-            sb.AppendFormat("{2}{0}Data:{3}{1}", indent, Environment.NewLine, boldFontTagOpen, boldFontTagClose);
+            sb.Append($"{boldFontTagOpen}{indent}Data:{boldFontTagClose}{Environment.NewLine}");
             foreach (DictionaryEntry de in ex.Data)
-                sb.AppendFormat("{0}\t{1} : {2}", indent, de.Key, de.Value);
+                sb.Append($"{indent}\t{de.Key} : {de.Value}");
         }
 
         Exception innerException = ex.InnerException;
@@ -66,13 +46,13 @@ public static class ExceptionExtensions
         while (innerException.IsNotNull())
         {
             sb.Append(innerException.FullInfo());
-            if (ExceptionExtensions.exceptionLevel > 1)
+            if (exceptionLevel > 1)
                 innerException = innerException.InnerException;
             else
                 innerException = null;
         }
 
-        ExceptionExtensions.exceptionLevel--;
+        exceptionLevel--;
 
         string result = htmlFormatted ? sb.ToString().Replace(Environment.NewLine, "<br />") : sb.ToString();
 
